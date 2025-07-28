@@ -7,7 +7,7 @@ app.use((req, res, next) => {
     console.log("This is my first middleware");
     next();
 })
-//123
+
 app.use((req, res, next) => {
     console.log("This is my second middleware");
     next();
