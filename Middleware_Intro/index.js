@@ -2,16 +2,22 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 
-app.use(morgan('common'))
+app.use(morgan('tiny'))
+
 app.use((req, res, next) => {
-    console.log("This is my first middleware");
+    console.log(req.method.toUpperCase(), req.path);
     next();
 })
 
-app.use((req, res, next) => {
-    console.log("This is my second middleware");
-    next();
-})
+// app.use((req, res, next) => {
+//     console.log("This is my first middleware");
+//     return next();
+// })
+
+// app.use((req, res, next) => {
+//     console.log("This is my second middleware");
+//     next();
+// })
 
 
 app.get('/', (req, res) => {
