@@ -14,5 +14,24 @@
     </main>
     <%- include('../partials/footer') %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => { // 立即執行函式 (IIFE) 意思是這整段程式一載入（頁面打開）就會自動執行，不用手動呼叫
+            'use strict' // 開啟 嚴格模式，讓 JavaScript 更嚴謹地執行
+
+            const forms = document.querySelectorAll('.validated-form') // 找到頁面中所有擁有 .validated-form class 的 <form> 元素
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => { // 對每一個表單都監聽 submit 事件，只要使用者按下「送出」按鈕，這段程式就會被觸發
+                    if (!form.checkValidity()) {
+                        event.preventDefault() // 阻止表單真的送出
+                        event.stopPropagation() // 防止事件繼續傳遞（例如傳到上層元素）
+                    }
+                    form.classList.add('was-validated')
+                }, false) // false 表示事件在冒泡階段執行（這是預設值）
+            })
+        })()
+    </script>
 </body>
 </html>
