@@ -26,6 +26,7 @@ app.use(methodOverride('_method'))
 
 const categories = ['fruit', 'vegetable', 'dairy'];
 
+
 function wrapAsync(fn) {
     return function (req, res, next) {
         fn(req, res, next).catch(e => next(e))
@@ -59,19 +60,21 @@ app.get('/products/:id', wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id)
     if (!product) {
-        throw new AppError('Product Not Found', 404);
+        return(new AppError('Product Not Found', 404));
     }
     res.render('products/show', { product })
 }))
+
 
 app.get('/products/:id/edit', wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
-        throw new AppError('Product Not Found', 404);
+        return(new AppError('Product Not Found', 404));
     }
     res.render('products/edit', { product, categories })
 }))
+
 
 app.put('/products/:id', wrapAsync(async (req, res, next) => {
     const { id } = req.params;
@@ -97,6 +100,7 @@ app.use((err, req, res, next) => {
     if (err.name === 'ValidationError') err = handleValidationErr(err)
     next(err);
 })
+
 
 app.use((err, req ,res, next) => {
     const { status = 500, message = 'Something went Wrong' } = err;
