@@ -1,8 +1,8 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
     <h1 class="text-center">New Campground</h1>
-    <div class="col-6 offset-3">
-        <form action="/campgrounds" method="post" novalidate class="validated-form">
+    <div class="col-md-6 offset-md-3">
+        <form action="/campgrounds" method="post" novalidate class="validated-form" enctype="multipart/form-data"><!--enctype="multipart/form-data" = 讓表單可以上傳檔案>-->
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="campground[title]" required>
@@ -20,15 +20,14 @@
                     Looks Good!
                 </div>
             </div>
-            <div class="mb-3">
+            <!-- <input type="file" name="image" id="" multiple> 這裡的 name 要跟 multer 的 upload.single() 裡面的一樣, 這行是用來上傳圖片的, multiple 是設定可以同時上傳多個檔案 -->
+            <!-- <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
                 <input class="form-control" type="text" id="image" name="campground[image]" required>
                 <div class="valid-feedback">
                     Looks Good!
                 </div>
-            </div>
-
-
+            </div> -->
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Pirce</label>
                 <div class="input-group">
@@ -38,14 +37,30 @@
                         Looks Good!
                     </div>
                 </div>
-            </div>
-            
-
+            </div>        
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
                 <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
                 <div class="valid-feedback">
                     Looks Good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Add Image</label>
+                <div class="input-group mb-3">
+                    <input 
+                        type="file" 
+                        name="image" 
+                        class="d-none"
+                        id="image" 
+                        multiple>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="file-name-display" 
+                        placeholder="尚未選擇檔案" 
+                        readonly>
+                    <label class="input-group-text" for="image" style="cursor: pointer;">Upload</label>
                 </div>
             </div>
             <div class="mb-3">

@@ -1,14 +1,18 @@
 <% layout('layouts/boilerplate') %>
+<!-- 這個檔案是用來在 campgrounds/index.ejs 中顯示地圖的 JavaScript 程式碼。它使用 MapTiler SDK 來顯示一個地圖，並在地圖上顯示營地的位置。當使用者點擊一個群集時，地圖會放大到該群集的位置；當使用者點擊一個未群集的點時，會顯示一個彈出窗口，顯示該營地的詳細信息。 -->
+<div id="cluster-map"></div>
+
+
 <h1>All Campgrounds</h1>
 <div>
     <a href="/campgrounds/new">Add New Campground</a>
 </div>
 
 <% for(let campground of campgrounds) { %>
-    <div class="card" mb-3>
+    <div class="card mb-3">
         <div class="row">
             <div class="col-md-4">
-                <img class="img-fluid" alt="" src="<%= campground.image %>">
+                <img class="img-fluid" alt="" src="<%= campground.images[0].url %>">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -24,5 +28,20 @@
     </div>
 <% } %>
 
+<!-- 將伺服器端資料（API金鑰、營地座標）傳給前端的 clusterMap.js 使用 -->
+<%- "<script>" %>
+const maptilerApiKey = "<%- process.env.MAPTILER_API_KEY %>";  <!--MapTiler API 金鑰-->
+const campgrounds = {  <!--所有營地整理成 GeoJSON 格式，供群聚地圖使用-->
+    type: "FeatureCollection",
+    features: <%- JSON.stringify(
+        campgrounds.map(campground => ({
+            type: "Feature",
+            geometry: campground.geometry,          // 營地座標
+            properties: { popUpMarkup: campground?.properties?.popUpMarkup }  // 點擊後顯示的內容
+        }))
+    ) %>
+};
+<%- "</script>" %>
 
+<script src="/javascripts/clusterMap.js"></script>  <!-- 載入群聚地圖 JS -->
 
